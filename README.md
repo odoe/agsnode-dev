@@ -17,12 +17,14 @@ npm install
 ...
 
 ### Run the application
+
 ...
 node app
 ...
 
 To customize
 ### Edit config.json public/config.json
+
 ...
 {
   "layers": [
@@ -41,9 +43,7 @@ To customize
       }
   }
   ],
-
     "widgets": [],
-
     "mapOptions": {
       "basemap": "gray",
       "autoResize": true,

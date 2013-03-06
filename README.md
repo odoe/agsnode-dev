@@ -11,6 +11,7 @@ I still need to get my mocha tests implemented, which would be easy to
 run.
 
 To install, clone the repository, navigatge to the folder.
+
 ### Install required modules
 ...
 npm install
@@ -22,10 +23,9 @@ npm install
 node app
 ...
 
-To customize
 ### Edit config.json public/config.json
 
-...
+... js
 {
   "layers": [
   {

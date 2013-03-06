@@ -43,7 +43,18 @@ node app
       }
   }
   ],
-    "widgets": [],
+    "widgets": [
+      {
+        "name": "geocoder",
+        "options": {
+          "autoComplete":true,
+          "arcgisGeocoder": {
+            "name":"Esri World Search",
+            "suffix":" Redlands, CA"
+          }
+        }
+      }
+    ],
     "mapOptions": {
       "basemap": "gray",
       "autoResize": true,

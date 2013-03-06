@@ -1,0 +1,35 @@
+@import url("http://serverapi.arcgisonline.com/jsapi/arcgis/3.3/js/dojo/dijit/themes/nihilo/nihilo.css");
+@import url("http://serverapi.arcgisonline.com/jsapi/arcgis/3.3/js/esri/css/esri.css");
+@import url("http://serverapi.arcgisonline.com/jsapi/arcgis/3.3/js/dojo/dojo/resources/dojo.css");
+@import url("http://serverapi.arcgisonline.com/jsapi/arcgis/3.3/js/dojo/dojox/layout/resources/FloatingPane.css");
+@import url("http://serverapi.arcgisonline.com/jsapi/arcgis/3.3/js/dojo/dojox/layout/resources/ResizeHandle.css");
+@import url("http://serverapi.arcgisonline.com/jsapi/arcgis/3.3/js/dgrid/css/dgrid.css");
+@import url("http://serverapi.arcgisonline.com/jsapi/arcgis/3.3/js/esri/dijit/css/Popup.css");
+@import url("bootstrap.min.css");
+body{font-family:"helvetica neue",arial,helvetica,freesans,"libaration sans","numbus sans l",sans-serif !important;color:#fff;}
+body{font-family:"helvetica neue",arial,helvetica,freesans,"libaration sans","numbus sans l",sans-serif !important;color:#fff;}
+.description{margin:1em auto;padding:1em;color:#7a99a5;}
+.dijitComboBoxMenuPopup{font-size:0.8em !important;}
+.dijitMenuPopup{min-width:150px;}.dijitMenuPopup .dijitMenuItemLabel{width:150px !important;}
+.dijitMenuBar{padding:5px !important;border:0 none lightGrey !important;background-color:#53a145 !important;}.dijitMenuBar .dijitMenuItemLabel{color:#fff !important;}
+.dijitMenuBar .dijitMenuItemLabel:hover{background-color:#7f7f7f !important;}
+.dijitMenuBar .dijitMenuItemSelected{background-color:#7f7f7f !important;}
+td{line-height:10px !important;}
+.attr-info{font-size:0.8em;background:#e4e4e4;}.attr-info .fieldName{font-weight:bold;}
+.dojoxFloatingPaneCanvas{height:100%;}
+.dojoxFloatingPaneTitle{color:#000;}
+.flowTrace{color:#000;font-size:0.9em;height:100%;}.flowTrace .flowTrace-form{margin:1em;}.flowTrace .flowTrace-form tr,.flowTrace .flowTrace-form td{margin:1em;}
+.flowTrace .flowTrace-form [widgetid="name"]{width:75px;}
+html,body{overflow-x:hidden;height:100%;width:100%;margin:0;padding:0;}
+.navbar,.navbar .brand,.navbar .nav>li>a{color:#fff !important;text-shadow:0 0 0 !important;}
+.navbar .nav li.dropdown>.dropdown-toggle .caret{border-top-color:#fff !important;border-bottom-color:#fff !important;}
+.brand{float:right !important;}
+.navbar{margin-bottom:0 !important;background:#53a145 !important;background-color:#53a145 !important;}.navbar .navbar-inner{filter:0 !important;background:#53a145 !important;background-color:#53a145 !important;padding:0 !important;}.navbar .navbar-inner div{margin-left:1em !important;}
+#container-main{position:absolute;top:40px;bottom:0;left:0;right:0;}#container-main #map{position:absolute;padding:0;top:0;left:0;right:0;bottom:0;}
+#container-main #sidebar-right{position:absolute;padding:0;right:0;top:0;bottom:0;width:0;}#container-main #sidebar-right .dijitContentPane{color:#333;background:#f2f6fa;}
+.dijitAccordionTitle{font-size:0.8em !important;border:1px solid $border_color !important;background:#DBEEFF !important;font-weight:normal !important;color:#555 !important;cursor:pointer !important;}
+.dijitAccordionTitle:hover{background:#8BA8C1 !important;color:#fff !important;}
+.dgrid{font-size:0.7em;max-height:150px;}.dgrid .dgrid-row{padding:0.3em;cursor:pointer;}
+.dgrid .dgrid-row:hover{background:#88a8c1;color:#fff;}
+#district-select{font-size:0.7em;}
+.dijitMenuTable{font-size:0.7em !important;}

@@ -1,0 +1,42 @@
+@import "theme";
+
+.description {
+  margin: 1em auto;
+  padding: 1em;
+  color: #7a99a5;
+}
+
+.dijitComboBoxMenuPopup {
+  font-size: 0.8em !important;
+}
+
+.dijitMenuPopup {
+  min-width: 150px;
+  .dijitMenuItemLabel {
+    width: 150px !important;
+  }
+}
+
+/** For BasemapMenu and Legend ToC **/
+
+.dijitMenuBar {
+  padding: 5px !important;
+  border: 0 none lightGrey !important;
+  background-color: @content_color !important;
+  .dijitMenuItemLabel {
+    color: #fff !important;
+  }
+  .dijitMenuItemLabel:hover {
+    //color: #000 !important;
+    background-color: @hover_color !important;
+  }
+  .dijitMenuItemSelected {
+    //color: #000 !important;
+    background-color: @hover_color !important;
+  }
+}
+
+td {
+  line-height: 10px !important;
+}
+

@@ -1,0 +1,16 @@
+{
+  "name": "AGSDev",
+  "description":"ArcGIS Dev Environment in Node",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app"
+  },
+  "dependencies": {
+    "express": "3.1.0",
+    "jade": "*",
+    "less-middleware": "*",
+    "express-uglify":"0.3.1",
+    "http-proxy":"0.8.7",
+  }
+}

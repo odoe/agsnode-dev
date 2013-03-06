@@ -1,0 +1,12 @@
+doctype 5
+html
+  head
+    meta(content="text/html, charset=UTF-8", http-equiv="Content-Type")
+    meta(content="IE=7;IE=8", http-equiv="X-UA-Compatible")
+    meta(content="initial-scale=1, maximum-scale=1, user-scalable=no", name="viewport")
+    title= title
+    link(rel='stylesheet', href='/stylesheets/main.css')
+    -each script in scripts
+      script(src=script)
+  body.nihilo
+    block content

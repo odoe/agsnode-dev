@@ -1,0 +1,110 @@
+@import "external";
+@import "theme";
+@import "items";
+@import "infowindow";
+@import "FlowTraceWidget";
+
+@border_color: #395A7E;
+
+html, body {
+  overflow-x: hidden;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar, .navbar .brand, .navbar .nav > li > a
+{
+    color: #fff !important;
+    text-shadow: 0 0 0 !important;
+}
+
+.navbar .nav li.dropdown > .dropdown-toggle .caret {
+    border-top-color: #fff !important;
+    border-bottom-color: #fff !important;
+}
+
+.brand { float: right !important; }
+
+.navbar {
+  margin-bottom: 0 !important;
+  background: @content_color !important;
+  background-color: @content_color !important;
+  .navbar-inner {
+    //background: saturate($header_color, 20%);
+    filter: 0 !important;
+    background: @content_color !important;
+    background-color: @content_color !important;
+    padding: 0 !important;
+    div { margin-left: 1em !important; }
+  }
+}
+
+#container-main {
+  position: absolute;
+  top: 40px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  #map {
+    position: absolute;
+    padding: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  #sidebar-right {
+    position: absolute;
+    padding: 0;
+    right: 0;
+    top:0;
+    bottom: 0;
+    width: 0;
+    .dijitContentPane {
+      color: #333;
+      background: @bg_color;
+    }
+  }
+
+}
+
+.dijitAccordionTitle {
+  font-size: 0.8em !important;
+  border: 1px solid $border_color !important;
+  background: #DBEEFF !important;
+  font-weight: normal !important;
+  color: #555 !important;
+  cursor: pointer !important;
+}
+
+.dijitAccordionTitle:hover {
+    background: #8BA8C1 !important;
+    color: #fff !important;
+}
+
+.dgrid {
+  font-size: 0.7em;
+  max-height: 150px;
+  .dgrid-row {
+    padding: 0.3em;
+    cursor: pointer;
+  }
+  .dgrid-row:hover {
+    background: #88a8c1;
+    color: #fff;
+  }
+}
+
+#district-select {
+  font-size: 0.7em;
+}
+
+.dijitMenuTable {
+  font-size: 0.7em !important;
+}
+
+// test

@@ -13,19 +13,19 @@ run.
 To install, clone the repository, navigatge to the folder.
 
 ### Install required modules
-...
+```
 npm install
-...
+```
 
 ### Run the application
 
-...
+```
 node app
-...
+```
 
 ### Edit config.json public/config.json
 
-... js
+``` js
 {
   "layers": [
   {
@@ -51,7 +51,7 @@ node app
       "zoom": 10
     }
 }
-...
+```
 
 Included widgets are "legend" and "basemap" that you can add top the
 widgets array in the config.json file. These have not been fully tested

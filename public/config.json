@@ -16,7 +16,20 @@
   }
   ],
 
-    "widgets": [],
+    "geometryservice": "http://tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer",
+
+    "widgets": [
+      {
+        "name": "geocoder",
+        "options": {
+          "autoComplete":true,
+          "arcgisGeocoder": {
+            "name":"Esri World Search",
+            "suffix":" Redlands, CA"
+          }
+        }
+      }
+    ],
 
     "mapOptions": {
       "basemap": "gray",

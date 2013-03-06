@@ -25,7 +25,7 @@ html, body {
     border-bottom-color: #fff !important;
 }
 
-.brand { float: right !important; }
+.brand { float: left !important; }
 
 .navbar {
   margin-bottom: 0 !important;
@@ -41,35 +41,26 @@ html, body {
   }
 }
 
-#container-main {
+#map {
   position: absolute;
+  padding: 0;
   top: 40px;
-  bottom: 0;
   left: 0;
   right: 0;
+  bottom: 0;
+}
 
-  #map {
-    position: absolute;
-    padding: 0;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+#sidebar-right {
+  position: absolute;
+  padding: 0;
+  right: 0;
+  top:0;
+  bottom: 0;
+  width: 0;
+  .dijitContentPane {
+    color: #333;
+    background: @bg_color;
   }
-
-  #sidebar-right {
-    position: absolute;
-    padding: 0;
-    right: 0;
-    top:0;
-    bottom: 0;
-    width: 0;
-    .dijitContentPane {
-      color: #333;
-      background: @bg_color;
-    }
-  }
-
 }
 
 .dijitAccordionTitle {
@@ -82,8 +73,8 @@ html, body {
 }
 
 .dijitAccordionTitle:hover {
-    background: #8BA8C1 !important;
-    color: #fff !important;
+  background: #8BA8C1 !important;
+  color: #fff !important;
 }
 
 .dgrid {
@@ -92,11 +83,11 @@ html, body {
   .dgrid-row {
     padding: 0.3em;
     cursor: pointer;
-  }
-  .dgrid-row:hover {
-    background: #88a8c1;
-    color: #fff;
-  }
+}
+.dgrid-row:hover {
+  background: #88a8c1;
+  color: #fff;
+}
 }
 
 #district-select {
@@ -107,4 +98,13 @@ html, body {
   font-size: 0.7em !important;
 }
 
-// test
+#geocoderSearch {
+  display: block;
+  position: absolute;
+  z-index:2;
+  top: 5px;
+  right: 25px;
+  div.esriGeocoderResults {
+    color: #000 !important;
+  }
+}

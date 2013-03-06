@@ -1,7 +1,7 @@
 /**
  * @author rrubalcava@odoe.net (Rene Rubalcava)
  */
-/*global console define require*/
+/*global console define require esri*/
 (function() {
     'use strict';
 
@@ -13,13 +13,14 @@
             var basemapLoader,
                 legendLoader,
                 widgetLoader,
+                geocodeLoader,
                 VM;
 
             /**
             * Loads the basemap widget
             * @param {Object} data
             */
-            basemapLoader = function(data) {
+            basemapLoader = function(widget, data) {
 
                 require([
                     'esri/dijit/BasemapGallery',
@@ -46,7 +47,7 @@
              * Loads the legend widget
              * @param {Object} data
              */
-            legendLoader = function(data) {
+            legendLoader = function(widget, data) {
 
                 require(['widgets/legendtoc/LegendMenuWidget'], function (LegendMenuWidget) {
                     var legendMenu = new LegendMenuWidget();
@@ -56,35 +57,54 @@
             };
 
             /**
+            * Load the geocoder widget
+            * @param {Object} data
+            */
+            geocodeLoader = function (widget, data) {
+
+                require(['esri/dijit/Geocoder'], function () {
+
+                    var options = widget.options;
+                    options.map = data.map;
+                    return new esri.dijit.Geocoder(options, 'geocoderSearch').startup();
+
+                });
+
+            };
+
+            /**
              * Helper function to decide what widgets to load
              * @param {string} widgetName
              * @param {Object} data
-             */
-            widgetLoader = function(widgetName, data){
-                if (widgetName === 'basemap') {
-                    basemapLoader(data);
+*/
+            widgetLoader = function(widget, data){
+                if (widget.name === 'basemap') {
+                    basemapLoader(widget, data);
                 }
-                if (widgetName === 'legend' && data.operational.length > 0) {
-                    legendLoader(data);
+                if (widget.name === 'legend' && data.operational.length > 0) {
+                    legendLoader(widget, data);
+                }
+                if (widget.name === 'geocoder') {
+                    geocodeLoader(widget, data);
                 }
             };
 
             /**
-             * ViewManager Controller that handles what widgets are added to application
-             * @constructor
-             */
+            * ViewManager Controller that handles what widgets are added to application
+            * @constructor
+*/
             VM = function(config) {
                 this._config = config;
             };
 
-            /**
-             * Render function that will start viewable items
-             * @return {ViewManager} Returns itself
-             */
+                /**
+                * Render function that will start viewable items
+                * @return {ViewManager} Returns itself
+*/
             VM.prototype.render = function() {
 
                 var mapView,
-                    _widgets;
+                _widgets;
 
                 mapView = new MapView(this._config);
 
@@ -92,7 +112,7 @@
                 mapView.on('mapIsReady',function(result) {
 
                     var i,
-                        len;
+                    len;
                     // Check the config for widgets
                     if (_widgets.length > 0) {
                         for (i = 0, len = _widgets.length; i < len; i++) {

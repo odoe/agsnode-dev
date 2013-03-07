@@ -76,7 +76,7 @@
              * Helper function to decide what widgets to load
              * @param {string} widgetName
              * @param {Object} data
-*/
+            */
             widgetLoader = function(widget, data){
                 if (widget.name === 'basemap') {
                     basemapLoader(widget, data);
@@ -92,15 +92,15 @@
             /**
             * ViewManager Controller that handles what widgets are added to application
             * @constructor
-*/
+            */
             VM = function(config) {
                 this._config = config;
             };
 
-                /**
-                * Render function that will start viewable items
-                * @return {ViewManager} Returns itself
-*/
+            /**
+            * Render function that will start viewable items
+            * @return {ViewManager} Returns itself
+            */
             VM.prototype.render = function() {
 
                 var mapView,
@@ -112,11 +112,10 @@
                 mapView.on('mapIsReady',function(result) {
 
                     var i,
-                    len;
+                        len;
                     // Check the config for widgets
                     if (_widgets.length > 0) {
                         for (i = 0, len = _widgets.length; i < len; i++) {
-                            console.log(result);
                             widgetLoader(_widgets[i], result);
                         }
                     }

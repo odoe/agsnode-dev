@@ -9,7 +9,7 @@
         'dojo/_base/declare',
         'dojo/_base/connect',
         'dojo/Evented',
-        'helpers/popupHelper',
+        'helpers/popuphelper',
         'helpers/layerLoader'
         ], function(declare, connect, Evented, popup, LayerLoader) {
 
@@ -20,7 +20,7 @@
             */
             var identifyLoader = function (layers, map) {
 
-                require(['helpers/IdentifyHelper'], function (IdentifyHelper) {
+                require(['helpers/identifyHelper'], function (IdentifyHelper) {
 
                     var _identifyLayers = [];
                     for (var j = 0, len = layers.length; j < len; j++) {

@@ -37,7 +37,6 @@ app.configure(function(){
     logLevel:'info'
   }));
   app.use(express['static'](path.join(__dirname, 'public')));
-  app.use(require('connect-restreamer')());
 });
 
 app.configure('development', function(){

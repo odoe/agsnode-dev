@@ -23,7 +23,7 @@ npm install
 node app
 ```
 
-### Edit config.json public/config.json
+### Edit public/config.json
 
 ``` js
 {
@@ -63,7 +63,27 @@ node app
     }
 }
 ```
+### You can configure external css and the version of the API in routes/index.js
+```
+exports.index = function(req, res){
+    var version = '3.3'; // just update the latest version of API here.
+    res.render('index', { 
+        title: 'ArcGIS Developer Application',
+        styles: ['//serverapi.arcgisonline.com/jsapi/arcgis/' + version + '/js/dojo/dijit/themes/nihilo/nihilo.css',
+                '//serverapi.arcgisonline.com/jsapi/arcgis/' + version + '/js/esri/css/esri.css',
+                '//serverapi.arcgisonline.com/jsapi/arcgis/' + version + '/js/dojo/dojo/resources/dojo.css',
+                '//serverapi.arcgisonline.com/jsapi/arcgis/' + version + '/js/dgrid/css/dgrid.css',
+                '//serverapi.arcgisonline.com/jsapi/arcgis/' + version + '/js/esri/dijit/css/Popup.css',
+                '/stylesheets/bootstrap.min.css',
+                '/stylesheets/main.css'],
+        scripts: ['//serverapi.arcgisonline.com/jsapi/arcgis/?v=' + version + 'compact',
+                    'javascripts/main.js'
+        ]
+    });
+};
+```
 
 Included widgets are "legend" and "basemap" that you can add top the
 widgets array in the config.json file. These have not been fully tested
-in this environment, but should work. "basemap" may need some work.
+in this environment. I have been having some issues with the "legend"
+widget with the latest AGS JS API update using Dojo 1.8.

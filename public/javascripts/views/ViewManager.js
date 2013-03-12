@@ -7,7 +7,8 @@
 
     define([
         'dojo/query',
-        'views/map/MapView'
+        'views/map/MapView',
+        'dojo/NodeList-manipulate'
         ], function(query, MapView) {
 
             var basemapLoader,
@@ -95,6 +96,9 @@
             */
             VM = function(config) {
                 this._config = config;
+                if (!!this._config.appName) {
+                    query('#app-name').innerHTML(this._config.appName);
+                }
             };
 
             /**

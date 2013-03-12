@@ -5,8 +5,9 @@ html
     meta(content="IE=7;IE=8", http-equiv="X-UA-Compatible")
     meta(content="initial-scale=1, maximum-scale=1, user-scalable=no", name="viewport")
     title= title
-    link(rel='stylesheet', href='/stylesheets/main.css')
-    -each script in scripts
-      script(src=script)
+    -each style in styles
+      link(rel='stylesheet', href=style)
   body.nihilo
     block content
+  -each script in scripts
+    script(defer, src=script)

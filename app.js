@@ -53,6 +53,9 @@ proxy = new httpProxy.RoutingProxy();
 app.all('/proxy', function (req, res) {
     var buffer,
         url_,
+        _query,
+        _query_url,
+        full_url,
         clean_url;
 
     /*
@@ -61,12 +64,41 @@ app.all('/proxy', function (req, res) {
     * into an object.
     **/
     buffer = httpProxy.buffer(req);
-    url_ = req.url.split("?")[1];
-    req.url = url_;
+    url_ = req.url.split('?')[1];
+    _query = req.url.split('?')[2];
+    _query_url = '';
+    if (typeof _query !== 'undefined') {
+        _query_url = '?' + _query;
+    }
+    full_url = url_ + _query_url;
+    req.url = full_url;
     clean_url = url.parse(url_);
+    // I was testing with a normal http.request, which should work too
+    /*
+    var opts = {
+        host: clean_url.host,
+        path:clean_url.path + url_req ? '?'+url_req : '',
+        method: req.method,
+        headers: {
+            HOST: clean_url.host
+        }
+    };
+    var r = http.request(opts, function (response) {
+        console.log('status: ', response.statusCode);
+        response.setEncoding('utf8');
+        response.on('data', function (chunk) {
+            res.write(chunk);
+        });
+        response.on('close', function () {
+            res.writeHead(response.statusCode);
+            res.end();
+        });
+    });
+    return r.end();
+    */
     proxy.proxyRequest(req, res, {
         host: clean_url.host,
-        port:80,
+        port: 80,
         buffer: buffer
     });
 

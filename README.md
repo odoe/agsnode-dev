@@ -6,6 +6,8 @@ yet. But I'm excited to try it. I have some ideas on node modules I can
 try and use with this.
 
 I made an attempt to try and use [http-proxy](https://github.com/nodejitsu/node-http-proxy) for my proxy. In testing, I had sone success. Will it work in all cases? I don't know, but would love some input if you are better at this than I am.
+The proxy appears to now be working. Needs further options for tokens
+and white lists, but happy so far.
 
 I still need to get my mocha tests implemented, which would be easy to
 run.
@@ -27,6 +29,7 @@ node app
 
 ``` js
 {
+  "appName": "AGS Node App",
   "layers": [
   {
     "type": "dynamic",

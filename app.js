@@ -11,6 +11,7 @@ var express = require('express')
   , expressUglify = require('express-uglify')
   , httpProxy = require('http-proxy')
   , url = require('url')
+  , deploy_url = 'http://localhost:' + (process.env.PORT || 3000) + '/'
   , proxy
   , app;
 
@@ -104,6 +105,10 @@ app.all('/proxy', function (req, res) {
 
 });
 
+if(process.env.SUBDOMAIN){
+  deploy_url = 'http://' + process.env.SUBDOMAIN + '.jit.su/';
+}
+
 http.createServer(app).listen(app.get('port'), function(){
-    console.log("Express server listening on port " + app.get('port'));
+    console.log('The http server has started at: ' + deploy_url);
 });

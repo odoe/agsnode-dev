@@ -22,6 +22,7 @@
             };
 
             _featureSelection.selectByObjectIds = function(objectIds) {
+
                 var query,
                     pBar,
                     deferred,
@@ -39,12 +40,12 @@
                 _this = this;
 
                 deferred.then(function(features) {
-
                     _this.emit('featuresSelected', features);
                     pBar.destroy();
                 }, function(error) {
                     pBar.destroy();
                 });
+
             };
 
             var FeatureSelection = declare([Evented], _featureSelection);

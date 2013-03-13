@@ -1,15 +1,13 @@
 /**
  * @author rrubalcava@odoe.net (Rene Rubalcava)
  */
-/*global console define require esri*/
+/*global console define require esri document*/
 (function() {
     'use strict';
 
     define([
-        'dojo/query',
-        'views/map/MapView',
-        'dojo/NodeList-manipulate'
-        ], function(query, MapView) {
+        'views/map/MapView'
+        ], function(MapView) {
 
             var basemapLoader,
                 legendLoader,
@@ -97,7 +95,7 @@
             VM = function(config) {
                 this._config = config;
                 if (!!this._config.appName) {
-                    query('#app-name').innerHTML(this._config.appName);
+                    document.getElementById('app-name').innerHTML = this._config.appName;
                 }
             };
 
@@ -108,7 +106,7 @@
             VM.prototype.render = function() {
 
                 var mapView,
-                _widgets;
+                    _widgets;
 
                 mapView = new MapView(this._config);
 

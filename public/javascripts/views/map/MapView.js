@@ -13,12 +13,16 @@
         'helpers/layerLoader'
         ], function(declare, connect, Evented, popup, LayerLoader) {
 
+            var identifyLoader,
+                _mapView,
+                MapView;
+
             /**
             * Loads the IdentifyHelper for application
             * @param {Array} layers
             * @param {esri.Map} map
             */
-            var identifyLoader = function (layers, map) {
+            identifyLoader = function (layers, map) {
 
                 require(['helpers/identifyHelper'], function (IdentifyHelper) {
 
@@ -36,70 +40,73 @@
 
             };
 
+            _mapView = {};
+
             /**
              * Map View Controller
              * @constructor
              */
-            var MapView = declare([Evented], {
+            _mapView.constructor = function (config) {
+                this._config = config;
+                this.map = null;
+            };
 
-                constructor: function(config) {
-                                 this._config = config;
-                             },
+            /**
+            * Will start the map and load layers.
+            * @return {MapView} returns itself.
+            */
+            _mapView.render = function (argument) {
+                var mapOptions,
+                    loader,
+                    _operational,
+                    _layersToAdd,
+                    layersHandler,
+                    handle;
 
-                map: null,
+                mapOptions = {};
+                if (!!this._config.mapOptions) {
+                    mapOptions = this._config.mapOptions;
+                }
 
-                /**
-                 * Will start the map and load layers.
-                 * @return {MapView} returns itself.
-                 */
-                render: function () {
+                mapOptions.infoWindow = popup.create(); // Be sure to add the infoWindow to the options
+                this.map = new esri.Map('map', mapOptions);
 
-                    var mapOptions,
-                        loader,
-                        _operational,
-                        _layersToAdd,
-                        layersHandler,
-                        handle;
+                // A helper to parse the config layers into map layers
+                loader = new LayerLoader();
+                loader.loadLayers(this._config.layers);
+                _operational = loader.operational;
+                _layersToAdd = loader.layersToAdd;
 
-                    mapOptions = {};
-                    if (!!this._config.mapOptions) {
-                        mapOptions = this._config.mapOptions;
-                    }
+                layersHandler = function(scope) {
 
-                    mapOptions.infoWindow = popup.create(); // Be sure to add the infoWindow to the options
-                    this.map = new esri.Map('map', mapOptions);
+                    connect.disconnect(handle);
 
-                    // A helper to parse the config layers into map layers
-                    loader = new LayerLoader();
-                    loader.loadLayers(this._config.layers);
-                    _operational = loader.operational;
-                    _layersToAdd = loader.layersToAdd;
+                    return function(results) {
 
-                    layersHandler = function(scope) {
+                        if (_layersToAdd[0] && _layersToAdd[0].loaded) {
+                            identifyLoader(_layersToAdd, scope.map);
+                        }
 
-                        connect.disconnect(handle);
-
-                        return function(results) {
-
-                            if (_layersToAdd[0] && _layersToAdd[0].loaded) {
-                                identifyLoader(_layersToAdd, scope.map);
-                            }
-
-                            scope.emit('mapIsReady', {
-                                map: scope.map,
-                                operational: _operational
-                            });
-                        };
-
+                        scope.emit('mapIsReady', {
+                            map: scope.map,
+                            operational: _operational
+                        });
                     };
 
-                    handle = connect.connect(this.map, 'onLayersAddResult', layersHandler(this));
+                };
 
-                    this.map.addLayers(_layersToAdd);
+                handle = connect.connect(this.map, 'onLayersAddResult', layersHandler(this));
 
-                    return this;
-                }
-            });
+                this.map.addLayers(_layersToAdd);
+
+                return this;
+            };
+
+            /**
+             * Map View Controller
+             * @constructor
+             */
+            MapView = declare([Evented], _mapView);
 
             return MapView;
 

@@ -1,18 +1,21 @@
 # ArcGIS JavaScript Development Environment in Node
 This is a development environment I've put together to use [Node.js](http://nodejs.org/) to develop [ArcGIS JavaScript](http://help.arcgis.com/en/webapi/javascript/arcgis/) applications.
 
-This ia all experimental, as I have not tried to use this in production
+# Demo
+You can view a demo of the application [here](http://agsnode.nodejitsu.com/).
+Easily deployed to [Nodejitsu](https://www.nodejitsu.com/) via command
+line.
+
+# Caveat
+This is all experimental, as I have not tried to use this in production
 yet. But I'm excited to try it. I have some ideas on node modules I can
 try and use with this.
-
-I made an attempt to try and use [http-proxy](https://github.com/nodejitsu/node-http-proxy) for my proxy. In testing, I had sone success. Will it work in all cases? I don't know, but would love some input if you are better at this than I am.
-The proxy appears to now be working. Needs further options for tokens
-and white lists, but happy so far.
 
 I still need to get my mocha tests implemented, which would be easy to
 run.
 
-To install, clone the repository, navigatge to the folder.
+### How to Use
+To install, clone the repository, navigate to the folder.
 
 ### Install required modules
 ```
@@ -85,7 +88,12 @@ exports.index = function(req, res){
     });
 };
 ```
+### Working Proxy
+I made an attempt to try and use [http-proxy](https://github.com/nodejitsu/node-http-proxy) for my proxy. In testing, I had some success. Will it work in all cases? I don't know, but would love some input if you are better at this than I am.
+The proxy appears to now be working. Needs further options for tokens
+and white lists, but happy so far.
 
+### Widgets
 Included widgets are "legend" and "basemap" that you can add top the
 widgets array in the config.json file. These have not been fully tested
 in this environment. I have been having some issues with the "legend"

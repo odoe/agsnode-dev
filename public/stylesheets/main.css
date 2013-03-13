@@ -1,4 +1,4 @@
-body{font-family:"helvetica neue",arial,helvetica,freesans,"libaration sans","numbus sans l",sans-serif !important;color:#fff;}
+html,body{overflow-x:hidden;height:100%;width:100%;margin:0;padding:0;}
 body{font-family:"helvetica neue",arial,helvetica,freesans,"libaration sans","numbus sans l",sans-serif !important;color:#fff;}
 .description{margin:1em auto;padding:1em;color:#7a99a5;}
 .dijitComboBoxMenuPopup{font-size:0.8em !important;}
@@ -8,7 +8,6 @@ body{font-family:"helvetica neue",arial,helvetica,freesans,"libaration sans","nu
 .dijitMenuBar .dijitMenuItemSelected{background-color:#7f7f7f !important;}
 td{line-height:10px !important;}
 .attr-info{font-size:0.8em;background:#e4e4e4;}.attr-info .fieldName{font-weight:bold;}
-html,body{overflow-x:hidden;height:100%;width:100%;margin:0;padding:0;}
 .navbar,.navbar .brand,.navbar .nav>li>a{color:#fff !important;text-shadow:0 0 0 !important;}
 .navbar .nav li.dropdown>.dropdown-toggle .caret{border-top-color:#fff !important;border-bottom-color:#fff !important;}
 .brand{float:left !important;}

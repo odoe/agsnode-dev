@@ -28,7 +28,7 @@ npm install
 node app
 ```
 
-### Edit config.json **Ideally this would come from a db source*
+### Edit config.json *Ideally this would come from a db source*
 
 ``` js
 {
@@ -70,7 +70,7 @@ node app
 }
 ```
 ### You can configure external css and the version of the API in routes/index.js
-```
+``` js
 exports.index = function(req, res){
     var version = '3.3'; // just update the latest version of API here.
     res.render('index', { 

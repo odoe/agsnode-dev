@@ -34,18 +34,13 @@
   require(['app', 'helpers/shim', 'dojo/domReady!'], function(App) {
 
       esri.config.defaults.io.proxyUrl = "/proxy";
-      // Read the config.json file
-      // Ideally, this should probably
-      // be from a REST endpoint.
-      // I've toyed with MongoDB to store
-      // this information
+      // Read the config from a url
       var request = esri.request({
-          url: 'config.json',
+          url: '/config',
           handlesAs: 'json'
       });
 
       request.then(function(response) {
-          delete response._ssl;
           App.initialize(response);
       }, function(error) {
           console.log('an error occured loading config file', error);

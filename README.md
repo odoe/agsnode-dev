@@ -28,7 +28,7 @@ npm install
 node app
 ```
 
-### Edit public/config.json
+### Edit config.json **Ideally this would come from a db source*
 
 ``` js
 {

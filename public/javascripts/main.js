@@ -23,15 +23,11 @@
       }, {
         name: "widgets",
         location: location.pathname.replace(/\/[^\/]+$/, "") + "javascripts/widgets"
-      }, {
-        name: "app",
-        location: location.pathname.replace(/\/[^\/]+$/, "") + "javascripts",
-        main: "app"
       }
     ]
   });
 
-  require(['app', 'helpers/shim', 'dojo/domReady!'], function(App) {
+  require(['views/ViewManager', 'helpers/shim', 'dojo/domReady!'], function(VM) {
 
       esri.config.defaults.io.proxyUrl = "/proxy";
       // Read the config from a url
@@ -41,7 +37,9 @@
       });
 
       request.then(function(response) {
-          App.initialize(response);
+          //App.initialize(response);
+          var vm = new VM(response);
+          vm.render();
       }, function(error) {
           console.log('an error occured loading config file', error);
       });

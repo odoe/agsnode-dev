@@ -51,10 +51,12 @@
             optimization:2 
         }));
         // Minify JavaScript
+        /*
         app.use(expressUglify.middleware({
             src: __dirname + '/public',
             logLevel:'info'
         }));
+        */
         app.use(express['static'](path.join(__dirname, 'public')));
     });
 

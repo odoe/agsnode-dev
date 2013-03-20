@@ -9,114 +9,111 @@
         'views/map/MapView'
         ], function(MapView) {
 
-            var basemapLoader,
-                legendLoader,
-                widgetLoader,
-                geocodeLoader,
-                VM;
+            var
 
-            /**
-            * Loads the basemap widget
-            * @param {Object} data
-            */
-            basemapLoader = function(widget, data) {
+                /**
+                * Loads the basemap widget
+                * @param {Object} data
+                */
+                basemapLoader = function(widget, data) {
 
-                require([
-                    'esri/dijit/BasemapGallery',
-                    'widgets/basemaps/BasemapMenuWidget'
-                    ], function (BasemapGallery, BasemapMenuWidget) {
+                    require([
+                        'esri/dijit/BasemapGallery',
+                        'widgets/basemaps/BasemapMenuWidget'
+                        ], function (BasemapGallery, BasemapMenuWidget) {
 
-                    var bmg = new BasemapGallery({
-                        showArcGISBasemaps: true,
-                        map: data.map
+                        var bmg = new BasemapGallery({
+                            showArcGISBasemaps: true,
+                            map: data.map
+                        });
+
+                        bmg.on('load', function() {
+                            bmg.select(bmg.basemaps[bmg.basemaps.length-1].id);
+                            var basemaps = new BasemapMenuWidget();
+                            basemaps.startup(data.bmg);
+                        });
+
                     });
 
-                    bmg.on('load', function() {
-                        bmg.select(bmg.basemaps[bmg.basemaps.length-1].id);
-                        var basemaps = new BasemapMenuWidget();
-                        basemaps.startup(data.bmg);
+                },
+
+                /**
+                * Loads the legend widget
+                * @param {Object} data
+                */
+                legendLoader = function(widget, data) {
+
+                    require(['widgets/legendtoc/LegendMenuWidget'], function (LegendMenuWidget) {
+                        var legendMenu = new LegendMenuWidget();
+                        legendMenu.startup(data.operational);
                     });
 
-                });
+                },
 
-            };
+                /**
+                * Load the geocoder widget
+                * @param {Object} data
+                */
+                geocodeLoader = function (widget, data) {
 
-            /**
-             * Loads the legend widget
-             * @param {Object} data
-             */
-            legendLoader = function(widget, data) {
+                    require(['esri/dijit/Geocoder'], function () {
 
-                require(['widgets/legendtoc/LegendMenuWidget'], function (LegendMenuWidget) {
-                    var legendMenu = new LegendMenuWidget();
-                    legendMenu.startup(data.operational);
-                });
+                        var options = widget.options;
+                        options.map = data.map;
+                        return new esri.dijit.Geocoder(options, 'geocoderSearch').startup();
 
-            };
+                    });
 
-            /**
-            * Load the geocoder widget
-            * @param {Object} data
-            */
-            geocodeLoader = function (widget, data) {
+                },
 
-                require(['esri/dijit/Geocoder'], function () {
+                /**
+                * Helper function to decide what widgets to load
+                * @param {string} widgetName
+                * @param {Object} data
+                */
+                widgetLoader = function(widget, data){
+                    if (widget.name === 'basemap') {
+                        basemapLoader(widget, data);
+                    }
+                    if (widget.name === 'legend' && data.operational.length > 0) {
+                        legendLoader(widget, data);
+                    }
+                    if (widget.name === 'geocoder') {
+                        geocodeLoader(widget, data);
+                    }
+                },
 
-                    var options = widget.options;
-                    options.map = data.map;
-                    return new esri.dijit.Geocoder(options, 'geocoderSearch').startup();
-
-                });
-
-            };
-
-            /**
-             * Helper function to decide what widgets to load
-             * @param {string} widgetName
-             * @param {Object} data
-            */
-            widgetLoader = function(widget, data){
-                if (widget.name === 'basemap') {
-                    basemapLoader(widget, data);
-                }
-                if (widget.name === 'legend' && data.operational.length > 0) {
-                    legendLoader(widget, data);
-                }
-                if (widget.name === 'geocoder') {
-                    geocodeLoader(widget, data);
-                }
-            };
-
-            /**
-            * ViewManager Controller that handles what widgets are added to application
-            * @constructor
-            */
-            VM = function(config) {
-                this._config = config;
-                if (!!this._config.appName) {
-                    document.getElementById('app-name').innerHTML = this._config.appName;
-                }
-            };
+                /**
+                * ViewManager Controller that handles what widgets are added to application
+                * @constructor
+                */
+                VM = function(config) {
+                    this._config = config;
+                    if (!!this._config.appName) {
+                        document.getElementById('app-name').innerHTML = this._config.appName;
+                    }
+                    if (!!this._config.title) {
+                        document.title = this._config.title;
+                    }
+                };
 
             /**
             * Render function that will start viewable items
             * @return {ViewManager} Returns itself
             */
             VM.prototype.render = function() {
+                console.log('start map view', MapView);
+                var mapView = new MapView(this._config),
+                    _widgets = this._config.widgets;
+                console.log('vm render');
 
-                var mapView,
-                    _widgets;
-
-                mapView = new MapView(this._config);
-
-                _widgets = this._config.widgets;
                 mapView.on('mapIsReady',function(result) {
 
-                    var i,
-                        len;
+                    var i = 0,
+                        len = _widgets.length;
                     // Check the config for widgets
-                    if (_widgets.length > 0) {
-                        for (i = 0, len = _widgets.length; i < len; i++) {
+                    if (len > 0) {
+                        for (; i < len; i++) {
                             widgetLoader(_widgets[i], result);
                         }
                     }

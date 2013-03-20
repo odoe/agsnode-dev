@@ -5,7 +5,7 @@
 (function() {
   'use strict';
 
-  define(['dojo/dom-construct', 'dojo/_base/Color', 'esri/symbol', 'esri/dijit/Popup'], function(domConstruct, Color) {
+  define(['dojo/dom-construct', 'dojo/_base/Color', 'esri/symbol', 'esri/dijit/Popup'], function(domConstruct, Color, Symbol) {
     return {
 
       /**
@@ -14,19 +14,15 @@
       */
       create: function() {
 
-        var fillSymbol,
-            lineSymbol,
-            popup,
-            slsFillColor,
-            slsLineColor;
+        var
+            slsLineColor = new Color([255, 0, 0]),
+            slsFillColor = new Color([255, 255, 0, 0.25]),
+            lineSymbol = new Symbol.SimpleLineSymbol(Symbol.SimpleLineSymbol.STYLE_SOLID, slsLineColor, 1),
+            fillSymbol = new Symbol.SimpleFillSymbol(Symbol.SimpleFillSymbol.STYLE_SOLID, lineSymbol, slsFillColor),
+            popup = new esri.dijit.Popup({
+                fillSymbol: fillSymbol
+            }, domConstruct.create('div'));
 
-        slsLineColor = new Color([255, 0, 0]);
-        slsFillColor = new Color([255, 255, 0, 0.25]);
-        lineSymbol = new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, slsLineColor, 1);
-        fillSymbol = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, lineSymbol, slsFillColor);
-        popup = new esri.dijit.Popup({
-          fillSymbol: fillSymbol
-        }, domConstruct.create('div'));
         return popup;
 
       }

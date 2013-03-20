@@ -5,47 +5,47 @@
 (function() {
   'use strict';
 
-  define(['dojo/_base/Color'], function(Color) {
+  define(['dojo/_base/Color', 'esri/symbol'], function(Color, Symbol) {
     return {
 
       /**
       * Creates a simple marker symbol
-      * @return {esri.symbol.SimpleMarkerSymbol}
+      * @return {Symbol.SimpleMarkerSymbol}
       */
       simpleMarker: function() {
-        return new esri.symbol.SimpleMarkerSymbol(esri.symbol.SimpleMarkerSymbol.STYLE_SQUARE, 12, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0]), 1), new Color([0, 255, 0, 1]));
+        return new Symbol.SimpleMarkerSymbol(Symbol.SimpleMarkerSymbol.STYLE_SQUARE, 12, new Symbol.SimpleLineSymbol(Symbol.SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0]), 1), new Color([0, 255, 0, 1]));
       },
 
       /**
       * Creates a simple line symbol
-      * @return {esri.symbol.SimpleLineSymbol}
+      * @return {Symbol.SimpleLineSymbol}
       */
       lineSymbol: function() {
-        return new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new Color([124, 252, 0]), 3);
+        return new Symbol.SimpleLineSymbol(Symbol.SimpleLineSymbol.STYLE_SOLID, new Color([124, 252, 0]), 3);
       },
 
       /**
       * Creates a simple fill symbol
-      * @return {esri.symbol.SimpleFillSymbol}
+      * @return {Symbol.SimpleFillSymbol}
       */
       polygonSymbol: function() {
-        return new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new Color([153, 50, 204]), 2), new Color([255, 255, 0, 0.25]));
+        return new Symbol.SimpleFillSymbol(Symbol.SimpleFillSymbol.STYLE_SOLID, new Symbol.SimpleLineSymbol(Symbol.SimpleLineSymbol.STYLE_SOLID, new Color([153, 50, 204]), 2), new Color([255, 255, 0, 0.25]));
       },
 
       /**
       * Creates a simple fill symbol for selected features
-      * @return {esri.symbol.SimpleFillSymbol}
+      * @return {Symbol.SimpleFillSymbol}
       */
       selectedPolygonSymbol: function() {
-        return new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new Color([255, 255, 0]), 1), new Color([0, 191, 255, 0.25]));
+        return new Symbol.SimpleFillSymbol(Symbol.SimpleFillSymbol.STYLE_SOLID, new Symbol.SimpleLineSymbol(Symbol.SimpleLineSymbol.STYLE_SOLID, new Color([255, 255, 0]), 1), new Color([0, 191, 255, 0.25]));
       },
 
       /**
       * Creates a simple fill symbol for selected features
-      * @return {esri.symbol.SimpleFillSymbol}
+      * @return {Symbol.SimpleFillSymbol}
       */
       selectedLineSymbol: function() {
-        return new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0]), 3);
+        return new Symbol.SimpleLineSymbol(Symbol.SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0]), 3);
       }
     };
   });

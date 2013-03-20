@@ -23,24 +23,19 @@
 
             _featureSelection.selectByObjectIds = function(objectIds) {
 
-                var query,
-                    pBar,
-                    deferred,
-                    _this;
+                var
+                    query = new esri.tasks.Query(),
+                    pBar = new ProgressBar({
+                        style: 'width: 300px; margin: auto',
+                        indeterminate: true
+                    }).placeAt(win.body()),
+                    self = this;
 
-                query = new esri.tasks.Query();
                 query.outFields = ['*'];
                 query.objectIds = objectIds;
-                pBar = new ProgressBar({
-                    style: 'width: 300px; margin: auto',
-                    indeterminate: true
-                }).placeAt(win.body());
 
-                deferred = this.featureLayer.selectFeatures(query, esri.layers.FeatureLayer.SELECTION_NEW);
-                _this = this;
-
-                deferred.then(function(features) {
-                    _this.emit('featuresSelected', features);
+                this.featureLayer.selectFeatures(query, esri.layers.FeatureLayer.SELECTION_NEW).then(function(features) {
+                    self.emit('featuresSelected', features);
                     pBar.destroy();
                 }, function(error) {
                     pBar.destroy();
@@ -48,8 +43,7 @@
 
             };
 
-            var FeatureSelection = declare([Evented], _featureSelection);
-            return FeatureSelection;
+            return declare([Evented], _featureSelection);
 
         });
 

@@ -27,21 +27,28 @@
     ]
   });
 
-  require(['views/ViewManager', 'helpers/shim', 'dojo/domReady!'], function(VM) {
+  require(['dojo/ready', 'views/ViewManager', 'helpers/shim', 'dojo/domReady!'], function(ready, VM) {
 
-      esri.config.defaults.io.proxyUrl = "/proxy";
-      // Read the config from a url
-      var request = esri.request({
-          url: '/config',
-          handlesAs: 'json'
-      });
+      ready(function () {
 
-      request.then(function(response) {
-          //App.initialize(response);
-          var vm = new VM(response);
-          vm.render();
-      }, function(error) {
-          console.log('an error occured loading config file', error);
+          // Read the config from a url
+          esri.request({
+              url: '/config',
+              handlesAs: 'json'
+          }).then(function(response) {
+
+              if (!!response.proxy) {
+                  esri.config.defaults.io.proxyUrl = response.proxy.url;
+                  esri.config.defaults.io.alwaysUseProxy = response.proxy.alwaysUseProxy;
+              }
+
+              var vm = new VM(response);
+              vm.render();
+
+          }, function(error) {
+              console.log('an error occured loading config file', error);
+          });
+
       });
 
   });

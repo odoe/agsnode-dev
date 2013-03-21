@@ -12,6 +12,8 @@
     'dijit/hccss'
     ], function(declare, MenuItem, template) {
 
+        //http://bugs.dojotoolkit.org/ticket/16177
+
       /**
        * Extends dijit.MenuItem for use in LegendToc
        * @constructor

@@ -33,7 +33,7 @@
       },
 
       /**
-      * Creates a simple fill symbol for selected features
+      * Creates a simple fill symbol for selected polygon features
       * @return {Symbol.SimpleFillSymbol}
       */
       selectedPolygonSymbol: function() {
@@ -41,8 +41,8 @@
       },
 
       /**
-      * Creates a simple fill symbol for selected features
-      * @return {Symbol.SimpleFillSymbol}
+      * Creates a simple fill symbol for selected line features
+      * @return {Symbol.SimpleLineSymbol}
       */
       selectedLineSymbol: function() {
         return new Symbol.SimpleLineSymbol(Symbol.SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0]), 3);

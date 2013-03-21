@@ -1,7 +1,7 @@
 /**
  * @author odoe@odoe.net (Rene Rubalcava)
  */
-/*global define esri */
+/*global define esri console*/
 (function() {
     'use strict';
 
@@ -27,23 +27,19 @@
              * @return {dijit.Menu}
              * @private
              */
-            var _buildLegendMenu = function(layer, info, legend) {
-
-                var legendMenu = new Menu({});
-                var _id = info.layerId || info.id;
+            function buildLegendMenu(layer, info, legend) {
+                var legendMenu = new Menu({}),
+                    _id = info.layerId || info.id;
                 for (var i = 0, len = legend.length; i < len; i++) {
-
                     var item = legend[i];
                     legendMenu.addChild(new LegendMenuItem({
                         label: item.label.length > 0 ? item.label : '...',
-                        legendUrl: [layer.url, '/', _id, '/images/', item.url].join('')
+                        legendUrl: 'data:image/png;base64,' + item.imageData//[layer.url, '/', _id, '/images/', item.url].join('')
                     }));
-
                 }
 
                 return legendMenu;
-
-            };
+            }
 
             /**
              * Response handler for esri.request to Legend REST Url
@@ -53,11 +49,12 @@
              * @return {dijit.Menu}
              * @private
              */
-            var _legendResponseHandler = function(layer, lyrMenu) {
+            function legendResponseHandler(layer, lyrMenu) {
 
 
-                var _onChecked = function(checked) {
+                var onChecked = function(checked) {
 
+                    console.log('onChecked', checked);
                     var visible = layer.visibleLayers;
                     var _id = this.info.layerId || this.info.id;
                     var index = arrayUtil.indexof(visible, _id);//visible.indexOf(this.info.id);
@@ -136,13 +133,13 @@
 
                                 _info = fromLayersResponse(subInfo.id);
                                 if (_info) {
-                                    url = [layer.url, '/', subInfo.id, '/images/', _info.legend[0].url].join('');
+                                    url = 'data:image/png;base64,' + _info.legend[0].imageData;//[layer.url, '/', subInfo.id, '/images/', _info.legend[0].url].join('');
                                     groupMenu.addChild(new LegendCheckedMenuItem({
                                         label: _info.layerName,
                                         info: subInfo,
                                         legendUrl: url,
                                         checked: arrayUtil.indexof(layer.visibleLayers, _info.layerId) > -1,//visible.indexOf(info.id) > -1,
-                                        onChange: _onChecked
+                                        onChange: onChecked
                                     }));                                }
                             }
 
@@ -151,33 +148,33 @@
                                 info: info,
                                 popup: groupMenu,
                                 checked: arrayUtil.indexof(layer.visibleLayers, info.id) > -1,//visible.indexOf(info.id) > -1,
-                                onChange: _onChecked
+                                onChange: onChecked
                             }));
 
                         } else if(responseLayer && responseLayer.legend.length > 1 && _subIds.indexOf(info.id) < 0) {
                             _info = fromLayersResponse(info.id);
                             // make a regular menu and normal menu items to legend
                             if (_info) {
-                                var legendMenu = _buildLegendMenu(layer, info, _info.legend, lyrMenu);
+                                var legendMenu = buildLegendMenu(layer, info, _info.legend, lyrMenu);
                                 lyrMenu.addChild(new CheckedPopupMenuItem({
                                     label: _info.layerName,
                                     info: info,
                                     popup: legendMenu,
                                     checked: arrayUtil.indexof(layer.visibleLayers, _info.layerId) > -1,//visible.indexOf(info.id) > -1,
-                                    onChange: _onChecked
+                                    onChange: onChecked
                                 }));
                             }
                         } else if (_subIds.indexOf(info.id) < 0) {
                             // make a checked menu item
                             _info = fromLayersResponse(info.id);
                             if (_info) {
-                                url = [layer.url, '/', info.id, '/images/', _info.legend[0].url].join('');
+                                url = 'data:image/png;base64,' + _info.legend[0].imageData;//[layer.url, '/', info.id, '/images/', _info.legend[0].url].join('');
                                 lyrMenu.addChild(new LegendCheckedMenuItem({
                                     label: _info.layerName,
                                     info: _info,
                                     legendUrl: url,
                                     checked: arrayUtil.indexof(layer.visibleLayers, _info.layerId) > -1,//visible.indexOf(info.id) > -1,
-                                    onChange: _onChecked
+                                    onChange: onChecked
                                 }));
                             }
                         }
@@ -185,7 +182,7 @@
 
                 };
 
-            };
+            }
 
             /**
              * LegendMenuWidget that can display given layers in a pure Dojo menu
@@ -219,7 +216,7 @@
                                      callbackParamName: 'callback'
                                  });
 
-                                 request.then(_legendResponseHandler(layer, lyrMenu));
+                                 request.then(legendResponseHandler(layer, lyrMenu));
 
                                  var serviceMenu = new CheckedPopupMenuItem({
                                      label: layer.title,

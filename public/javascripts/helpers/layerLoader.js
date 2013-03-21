@@ -19,7 +19,6 @@
                 * @return {ArcGISDynamicMapServiceLayer} Dynamic Map Service Layer for map
                 */
                 dynamicLoader = function(lyr) {
-
                     var _dlyr = new esri.layers.ArcGISDynamicMapServiceLayer(lyr.url, {
                         id: lyr.id
                     });
@@ -34,7 +33,6 @@
                     }
 
                     return _dlyr;
-
                 },
 
                 /**
@@ -43,7 +41,6 @@
                 * @return {FeatureLayer} Feature Layer for map
                 */
                 featureLoader = function(lyr) {
-
                     var _flyr = new FeatureLayer(lyr.url, {
                         id: lyr.id,
                         mode: lyr.mode,
@@ -60,7 +57,6 @@
                     }
 
                     return _flyr;
-
                 },
 
                 /**
@@ -69,12 +65,10 @@
                 * @return {Object} object
                 */
                 LayerLoader = function (layers) {
-                    var i = 0,
-                        len = layers.length;
                     this.operational = [];
                     this.layersToAdd = [];
 
-                    for (; i < len; i++) {
+                    for (var i = 0, len = layers.length; i < len; i++) {
                         var lyr = layers[i];
                         if (lyr.type.toLowerCase() === 'dynamic') { // load the dynamic layers defined in config
                             this.layersToAdd[this.layersToAdd.length] = dynamicLoader.call(this, lyr);
@@ -86,7 +80,6 @@
                         operational: this.operational,
                         layersToAdd: this.layersToAdd
                     };
-
                 };
 
             return LayerLoader;

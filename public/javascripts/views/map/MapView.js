@@ -12,71 +12,59 @@
         'helpers/popuphelper',
         'helpers/layerLoader'
         ], function(declare, connect, Evented, popup, LayerLoader) {
-
+            var mapView = {};
             /**
              * Loads the IdentifyHelper for application
              * @param {Array} layers
              * @param {esri.Map} map
              */
-            var
-                identifyLoader = function (layers, map) {
-
-                    require(['helpers/identifyHelper'], function (IdentifyHelper) {
-
-                        var _identifyLayers = [],
-                            i = 0,
-                            len = layers.length,
-                            idHelper = new IdentifyHelper();
-
-                        for (; i < len; i++) {
-                            if (!!layers[i].canIdentify) {
-                                _identifyLayers[_identifyLayers.length] = layers[i];
-                            }
+            function identifyLoader(layers, map) {
+                require(['helpers/identifyHelper'], function (IdentifyHelper) {
+                    var _identifyLayers = [],
+                    idHelper = new IdentifyHelper();
+                    for (var i = 0; i < layers.length; i++) {
+                        if (layers[i].canIdentify) {
+                            _identifyLayers[_identifyLayers.length] = layers[i];
                         }
-
-                        idHelper.identifyHandler(map, _identifyLayers);
-
-                    });
-
-                },
-                _mapView = {};
+                    }
+                    idHelper.identifyHandler(map, _identifyLayers);
+                });
+            }
 
             /**
-            * Map View Controller
-            * @constructor
-            */
-            _mapView.constructor = function (config) {
+             * Map View Controller
+             * @constructor
+             */
+            mapView.constructor = function (config) {
                 this._config = config;
                 this.map = null;
             };
 
             /**
-            * Will start the map and load layers.
-            * @return {MapView} returns itself.
-            */
-            _mapView.render = function () {
+             * Will start the map and load layers.
+             * @return {MapView} returns itself.
+             */
+            mapView.render = function () {
                 var mapOptions = this._config.mapOptions || {},
                     loadedLayers = new LayerLoader(this._config.layers),
                     _operational = loadedLayers.operational,
                     _layersToAdd = loadedLayers.layersToAdd,
-                    handle,
-                    layersHandler = function(scope) {
+                    handle;
 
-                        connect.disconnect(handle);
+                function layersHandler(scope) {
+                    connect.disconnect(handle);
 
-                        return function(results) {
+                    return function(results) {
+                        if (_layersToAdd[0] && _layersToAdd[0].loaded) {
+                            identifyLoader(_layersToAdd, scope.map);
+                        }
 
-                            if (_layersToAdd[0] && _layersToAdd[0].loaded) {
-                                identifyLoader(_layersToAdd, scope.map);
-                            }
-
-                            scope.emit('mapIsReady', {
-                                map: scope.map,
-                                operational: _operational
-                            });
-                        };
-
+                        scope.emit('mapIsReady', {
+                            map: scope.map,
+                            operational: _operational
+                        });
                     };
+                }
 
                 mapOptions.infoWindow = popup.create(); // Be sure to add the infoWindow to the options
                 this.map = new esri.Map('map', mapOptions);
@@ -87,12 +75,10 @@
             };
 
             /**
-            * Map View Controller
-            * @constructor
-            */
-            return declare([Evented], _mapView);
-
-    });
-
+             * Map View Controller
+             * @constructor
+             */
+            return declare([Evented], mapView);
+        });
 }).call(this);
 

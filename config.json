@@ -19,6 +19,9 @@
 
     "widgets": [
     {
+      "name": "legend"
+    },
+    {
       "name": "geocoder",
       "options": {
         "autoComplete":true,

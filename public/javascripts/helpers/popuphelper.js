@@ -7,13 +7,11 @@
 
   define(['dojo/dom-construct', 'dojo/_base/Color', 'esri/symbol', 'esri/dijit/Popup'], function(domConstruct, Color, Symbol) {
     return {
-
       /**
       * Creates a popup to be used in the Map
       * @return {esri.dijit.Popup}
       */
       create: function() {
-
         var
             slsLineColor = new Color([255, 0, 0]),
             slsFillColor = new Color([255, 255, 0, 0.25]),
@@ -24,7 +22,6 @@
             }, domConstruct.create('div'));
 
         return popup;
-
       }
     };
   });

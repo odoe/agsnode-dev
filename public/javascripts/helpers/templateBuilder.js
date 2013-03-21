@@ -17,8 +17,7 @@
         */
         _builder.buildInfoTemplate = function(feature) {
 
-            var content = [],
-                template;
+            var content = [];
             // get the dom element for my infotemplate as a string
             content[content.length] = '<table cellspacing="0" class="table table-striped table-condensed attr-info">';
             if (feature.layerName) {
@@ -29,11 +28,9 @@
             * Ignore certain fields not needing to be displayed
             * Order matters, so loop forward over keys.
             **/
-            var keys = Object.keys(feature.attributes),
-                i = 0,
-                len = keys.length;
+            var keys = Object.keys(feature.attributes);
 
-            for (; i < len; i++) {
+            for (var i = 0, len = keys.length; i < len; i++) {
                 var _key = keys[i].toLowerCase(),
                     name;
                 if (!(_key.indexOf('shape') > -1 || _key === 'layername'|| _key === 'objectid' || _key === 'fid')) {

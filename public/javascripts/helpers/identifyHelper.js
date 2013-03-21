@@ -13,65 +13,61 @@
         'esri/tasks/identify'
         ], function(on, Deferred, DeferredList, templateBuilder) {
 
-            var
+            var IdentifyHelper = function () {
+                this.handler = {}; // A pausable handler for the identify tool
+                return this;
+            };
+            /**
+             * Utility method to build the infotemplate for a
+             * graphic feature displaying all attributes in a table format.
+             * @param {esri.tasks.IdentifyResult} result
+             */
+            function templateMaker(result) {
+                var feature = result.feature;
+                // assign the layerName to actual graphic
+                // to display in the InfoTemplate
+                feature.attributes.layerName = result.layerName;
+                feature.layerName = result.layerName;
+                return templateBuilder.buildInfoTemplate(feature);
+            }
 
-                /**
-                * Utility method to build the infotemplate for a
-                * graphic feature displaying all attributes in a table format.
-                * @param {esri.tasks.IdentifyResult} result
-                */
-                _templateMaker = function(result) {
+            /**
+             * Map layers to create an array of IdentifyTasks
+             * @param {Array} layers
+             * @return {Array}
+             */
+            function tasksMap(layers) {
+                for (var i = 0, len = layers.length, _tasks = []; i < len; i++) {
+                    var task = new esri.tasks.IdentifyTask(layers[i].url);
+                    task.identifyLayers = layers[i].identifyLayers; 
+                    _tasks[_tasks.length] = task;
+                }
+                return _tasks;
+            }
 
-                    var feature = result.feature;
-                    // assign the layerName to actual graphic
-                    // to display in the InfoTemplate
-                    feature.attributes.layerName = result.layerName;
-                    feature.layerName = result.layerName;
-                    return templateBuilder.buildInfoTemplate(feature);
+            /**
+             * Map tasks to create an Array of Deffered objects
+             * @param {Array} items
+             * @return {Array}
+             */
+            function deferredFactory(count) {
+                for (var i = 0, _deferreds = []; i < count; i++) {
+                    _deferreds[_deferreds.length] = new Deferred();
+                }
+                return _deferreds;
+            }
 
-                },
-
-                /**
-                * Map layers to create an array of IdentifyTasks
-                * @param {Array} layers
-                * @return {Array}
-                */
-                _tasksMap = function(layers) {
-
-                    var _tasks = [],
-                        i = 0,
-                        len = layers.length;
-
-                    for (i; i < len; i++) {
-                        var task = new esri.tasks.IdentifyTask(layers[i].url);
-                        task.identifyLayers = layers[i].identifyLayers; // append the identify layers from config to task
-                        _tasks[_tasks.length] = task;
+            // Deferred responses are an array of the results array
+            // - Each result array will return true/false in position array[0]
+            // - So response[0][0] would be true or false
+            function cleanResponse(res) {
+                for (var i = 0, len = res.length, results = []; i < len; i++) {
+                    if (res[i][0]) {
+                        results = results.concat(res[i][1]);
                     }
-                    return _tasks;
-
-                },
-
-                /**
-                * Map tasks to create an Array of Deffered objects
-                * @param {Array} tasks
-                * @return {Array}
-                */
-                _deferredTasks = function(tasks) {
-
-                    var _deferreds = [],
-                        i = 0,
-                        len = tasks.length;
-
-                    for (i; i < len; i++) {
-                        _deferreds[_deferreds.length] = new Deferred();
-                    }
-                    return _deferreds;
-
-                },
-
-                IdentifyHelper = function () {
-                    this.handler = {}; // A pausable handler for the identify tool
-                };
+                }
+                return results;
+            }
 
             /**
              * Handles the identify functions of a map 'onClick' event
@@ -79,10 +75,8 @@
              * @param {Array} layers
              */
             IdentifyHelper.prototype.identifyHandler = function (map, layers) {
-
                 var idParams = new esri.tasks.IdentifyParameters(),
-                    _callback,
-                    tasks = _tasksMap(layers);
+                    tasks = tasksMap(layers);
 
                 this.map = map;
 
@@ -94,58 +88,46 @@
                  * Callback method to handle deferred response.
                  * @return {Array} Array of mapped features.
                  */
-                _callback = function(r) {
+                function onDeferred(r) {
+                    var results = cleanResponse(r);
 
-                    var results = [],
-                        j = 0,
-                        i = 0,
-                        len_ = r.length,
-                        len__;
-
-                    for (; j < len_; j++) {
-                        if (!!r[j][0]) results = results.concat(r[j][1]);
+                    for (var i = 0, len = results.length; i < len; i++) {
+                        results[i] = templateMaker(results[i]);
                     }
-
-                    for (len__ = results.length; i < len__; i++) {
-                        results[i] = _templateMaker(results[i]);
-                    }
-
+                    // if no features, keep infoWindow hidden
                     if (results.length === 0) {
                         map.infoWindow.clearFeatures();
-                        map.infoWindow.hide(); // if no features, keep infoWindow hidden
+                        map.infoWindow.hide();
                     } else {
                         map.infoWindow.setFeatures(results);
                         map.infoWindow.show(idParams.geometry);
                     }
                     return results;
+                }
 
-                };
+                function onMapClick(e) {
+                    var deferredTasks = deferredFactory(tasks.length),
+                        defListTasks = new DeferredList(deferredTasks);
 
-                this.handler = on.pausable(this.map, 'click', function(evt) {
-
-                    var deferredTasks = _deferredTasks(tasks),
-                        defListTasks = new DeferredList(deferredTasks),
-                        i = 0,
-                        len = tasks.length;
-
-                    defListTasks.then(_callback);
-                    idParams.geometry = evt.mapPoint;
+                    defListTasks.then(onDeferred);
+                    idParams.geometry = e.mapPoint;
                     idParams.mapExtent = map.extent;
                     idParams.width = map.width;
                     idParams.height = map.height;
-
-                    for (; i < len; i++) {
+                    // use the identify layers described in config
+                    for (var i = 0, len = tasks.length; i < len; i++) {
                         try {
-                            idParams.layerIds = tasks[i].identifyLayers; // use the identify layers described in config
+                            idParams.layerIds = tasks[i].identifyLayers;
                             tasks[i].execute(idParams, deferredTasks[i].callback, deferredTasks[i].errback);
-                        } catch(e) {
-                            console.log(e);
-                            deferredTasks[i].errback(e);
+                        } catch(err) {
+                            console.log(err);
+                            deferredTasks[i].errback(err);
                         }
                     }
+                }
 
-                });
-
+                this.handler = on.pausable(this.map, 'click', onMapClick);
+                return this;
             };
 
             return IdentifyHelper;

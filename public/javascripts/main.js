@@ -11,10 +11,6 @@
     aliases: [["text", "dojo/text"]],
     packages: [
       {
-        name: "moment",
-        location: location.pathname.replace(/\/[^\/]+$/, "") + "javascripts/libs/moment",
-        main: "moment.min"
-      }, {
         name: "views",
         location: location.pathname.replace(/\/[^\/]+$/, "") + "javascripts/views"
       }, {
@@ -28,29 +24,25 @@
   });
 
   require(['dojo/ready', 'views/ViewManager', 'helpers/shim', 'dojo/domReady!'], function(ready, VM) {
-
       ready(function () {
-
           // Read the config from a url
           esri.request({
               url: '/config',
               handlesAs: 'json'
-          }).then(function(response) {
+          }).then(function(config) {
 
-              if (!!response.proxy) {
-                  esri.config.defaults.io.proxyUrl = response.proxy.url;
-                  esri.config.defaults.io.alwaysUseProxy = response.proxy.alwaysUseProxy;
+              if ('proxy' in config) {
+                  esri.config.defaults.io.proxyUrl = config.proxy.url;
+                  esri.config.defaults.io.alwaysUseProxy = config.proxy.alwaysUseProxy;
               }
 
-              var vm = new VM(response);
+              var vm = new VM(config);
               vm.render();
 
           }, function(error) {
               console.log('an error occured loading config file', error);
           });
-
       });
-
   });
 
 }).call(this);

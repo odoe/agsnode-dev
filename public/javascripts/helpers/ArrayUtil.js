@@ -18,11 +18,10 @@
              * @return {Boolean} Does object exist in Target array.
              */
             exists: function(array, obj, field) {
-                        var i = array.length - 1;
                         if (!field) {
                             throw new Error('Must provide a valid field name to search for.');
                         }
-                        for (; i >= 0; i--) {
+                        for (var i = array.length - 1; i >= 0; i--) {
                             if (obj[field] === array[i][field]) return true;
                         }
                         return false;

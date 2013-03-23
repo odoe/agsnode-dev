@@ -19,8 +19,11 @@
 
     "widgets": [
     {
-      "name": "legend"
+      "name": "legend",
+      "path": "widgets/legendtoc/LegendMenuWidget",
+      "requireOperational": true
     },
+
     {
       "name": "geocoder",
       "options": {

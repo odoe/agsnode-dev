@@ -49,18 +49,26 @@ node app
       }
   }
   ],
+
     "widgets": [
-      {
-        "name": "geocoder",
-        "options": {
-          "autoComplete":true,
-          "arcgisGeocoder": {
-            "name":"Esri World Search",
-            "suffix":" Redlands, CA"
-          }
+    {
+      "name": "legend",
+      "path": "widgets/legendtoc/LegendMenuWidget",
+      "requireOperational": true
+    },
+
+    {
+      "name": "geocoder",
+      "options": {
+        "autoComplete":true,
+        "arcgisGeocoder": {
+          "name":"Esri World Search",
+          "suffix":" Redlands, CA"
         }
       }
-    ],
+    }
+  ],
+
     "mapOptions": {
       "basemap": "gray",
       "autoResize": true,
@@ -94,7 +102,6 @@ The proxy appears to now be working. Needs further options for tokens
 and white lists, but happy so far.
 
 ### Widgets
-Included widgets are "legend" and "basemap" that you can add top the
-widgets array in the config.json file. These have not been fully tested
-in this environment. I have been having some issues with the "legend"
-widget with the latest AGS JS API update using Dojo 1.8.
+Included is a "legend" that you can add to the widgets array in the config.json file.
+The "legend" widget demonstrates how to make a widget work in the widget
+factory style. This means you can add non-Dojo widgets.

@@ -14,7 +14,7 @@
         * graphic feature displaying all attributes in a table format.
         * @param {esri.Graphic} feature Graphic to set infoTemplate.
         * @return {esri.Graphic} Graphic with infoTemplate set.
-        */
+*/
         _builder.buildInfoTemplate = function(feature) {
 
             var content = [];
@@ -28,11 +28,13 @@
             * Ignore certain fields not needing to be displayed
             * Order matters, so loop forward over keys.
             **/
-            var keys = Object.keys(feature.attributes);
+            var keys = Object.keys(feature.attributes),
+                i = 0,
+                len = keys.length;
 
-            for (var i = 0, len = keys.length; i < len; i++) {
+            for (; i < len; i++) {
                 var _key = keys[i].toLowerCase(),
-                    name;
+                name;
                 if (!(_key.indexOf('shape') > -1 || _key === 'layername'|| _key === 'objectid' || _key === 'fid')) {
                     name = keys[i];
                     content[content.length]= '<tr><td class="fieldName">' + name + '</td><td>${' + name + '}</td></tr>';

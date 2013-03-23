@@ -10,17 +10,6 @@
     ], function(MapView) {
 
         /**
-        * Loads the legend widget
-        * @param {Object} data
-        */
-        function legendLoader(widget, data) {
-            require(['widgets/legendtoc/LegendMenuWidget'], function (LegendMenuWidget) {
-                var legendMenu = new LegendMenuWidget();
-                legendMenu.startup(data.operational);
-            });
-        }
-
-        /**
         * Load the geocoder widget
         * @param {Object} data
         */

@@ -4,7 +4,7 @@
  */
 
 exports.index = function(req, res){
-    var version = '3.3'; // just update the latest version of API here
+    var version = '3.4'; // just update the latest version of API here
     res.render('index', { 
         title: 'ArcGIS Developer Application',
         styles: ['//serverapi.arcgisonline.com/jsapi/arcgis/' + version + '/js/dojo/dijit/themes/nihilo/nihilo.css',

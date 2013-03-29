@@ -6,8 +6,9 @@
     'use strict';
 
     define([
+           'require',
            'views/map/MapView'
-    ], function(MapView) {
+    ], function(require, MapView) {
 
         /**
         * Load the geocoder widget

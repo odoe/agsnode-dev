@@ -6,12 +6,13 @@
     'use strict';
 
     define('views/map/MapView',[
+           'require',
            'dojo/_base/declare',
            'dojo/_base/connect',
            'dojo/Evented',
            'helpers/popuphelper',
            'helpers/layerLoader'
-    ], function(declare, connect, Evented, popup, LayerLoader) {
+    ], function(require, declare, connect, Evented, popup, LayerLoader) {
         var mapView = {};
         /**
         * Loads the IdentifyHelper for application
@@ -46,10 +47,10 @@
         */
         mapView.render = function () {
             var mapOptions = this._config.mapOptions || {},
-            loadedLayers = new LayerLoader(this._config.layers),
-            _operational = loadedLayers.operational,
-            _layersToAdd = loadedLayers.layersToAdd,
-            handle;
+                loadedLayers = new LayerLoader(this._config.layers),
+                _operational = loadedLayers.operational,
+                _layersToAdd = loadedLayers.layersToAdd,
+                handle;
 
             function layersHandler(scope) {
                 connect.disconnect(handle);

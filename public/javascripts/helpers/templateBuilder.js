@@ -37,7 +37,7 @@
 
             for (; i < len; i++) {
                 var _key = keys[i].toLowerCase(),
-                name;
+                    name;
                 if (!(_key.indexOf('shape') > -1 || _key === 'layername'|| _key === 'objectid' || _key === 'fid')) {
                     name = keys[i];
                     if (name.toLowerCase() !== urlField) {
